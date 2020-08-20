@@ -127,6 +127,9 @@ const Root = (function() {
     authzforce,
     organizationToken
   ) {
+    const applicationID = req.headers['fiware-service']
+      ? req.headers['fiware-service']
+      : config.pep.app_id;
     IDM.checkToken(
       authToken,
       jwtExpiration,
@@ -134,6 +137,7 @@ const Root = (function() {
       resource,
       authzforce,
       organizationToken,
+      applicationID,
       function(userInfo) {
         setHeaders(req, userInfo);
         if (config.authorization.enabled) {
@@ -177,6 +181,10 @@ const Root = (function() {
       ? JSON.stringify(userInfo.eidas_profile)
       : {};
     req.headers['X-App-Id'] = userInfo.app_id;
+
+    // Overwrite header: 'fiware-service' with application ID
+    delete req.headers['fiware-service'];
+    req.headers['fiware-service'] = userInfo.app_id.replace(/-/g, '_');
   };
 
   const authorizeAzf = function(req, res, authToken, userInfo) {

@@ -1,5 +1,6 @@
-ARG NODE_VERSION=10.17.0-slim
-FROM node:${NODE_VERSION}
+#ARG NODE_VERSION=10.17.0-slim
+#FROM node:${NODE_VERSION}
+FROM node:10.17.0-slim
 
 # Automated Docker file for Docker Hub
 # This will retrieve the source code of the latest tagged release from GitHub
